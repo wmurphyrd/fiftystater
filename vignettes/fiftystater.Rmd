@@ -11,29 +11,39 @@ vignette: >
 
 This package contains the data file `fifty_states` which includes the shape
 data to map the fifty U.S. states and Washington DC in `ggplot2`. Alaska 
-and Hawaii are transformed and shifted to appear below the contiential states. 
+and Hawaii are transformed and shifted to appear below the contiguous states.
+Add border boxes for the inset states also adding 
+`fifty_states_inset_boxes` layer object to the plot. 
 
-```{r example}
+```{r example, fig.show='hold'}
 library(ggplot2)
 library(fiftystater)
-data(fifty_states) # optional as lazy data is enabled
+data("fifty_states") # optional as lazy data is enabled
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
 
-ggplot(crimes, aes(map_id = state)) +
-  geom_map(aes(fill = Murder), map = fifty_states) +
+p <- ggplot(crimes, aes(map_id = state)) +
+  geom_map(aes(fill = Assault), map = fifty_states) +
   expand_limits(x = fifty_states$long, y = fifty_states$lat) +
-  coord_map()
+  coord_map() +
+  scale_x_continuous(breaks = NULL) + 
+  scale_y_continuous(breaks = NULL) +
+  labs(x = "", y = "") +
+  theme(legend.position = "bottom", 
+        panel.background = element_blank())
 
-library(colorplaner)
-ggplot(crimes, aes(map_id = state)) +
-  geom_map(aes(fill = Murder, fill2 = UrbanPop), map = fifty_states) +
-  scale_fill_colorplane() +
-  expand_limits(x = fifty_states$long, y = fifty_states$lat) +
-  coord_map()
-
+p
+# add border boxes to AK/HI
+p + fifty_states_inset_boxes 
 ```
 
+
+```{r example2, fig.width=6}
+# Map two variables to each state color with colorplaner
+library(colorplaner)
+p + aes(fill2 = UrbanPop) + scale_fill_colorplane() +
+  theme(legend.position = "right")
+```
 
 The map data included in this package was generated with the code below. This
 code was inspired by an answer on Stack Overflow by Barry Rowlingson:
@@ -41,35 +51,39 @@ code was inspired by an answer on Stack Overflow by Barry Rowlingson:
 
 ```{r makemap, message=FALSE}
 # Create map data with AK, HI inset.
-# Inspired by http://stackoverflow.com/a/13767984
-if (require(rgeos) & require(maptools) & require(rgdal) & require(dplyr)) {
-  transform_state <- function(object, rot, scale, shift){
-    object %>% elide(rotate = rot) %>%
-      elide(scale = max(apply(bbox(object), 1, diff)) / scale) %>%
-      elide(shift = shift)
-  }
-  # State shape file from
-  # http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5
-  loc <- file.path(tempdir(), "stats_dat")
-  unzip(system.file("extdata", "states_21basic.zip", 
-                    package = "fiftystater"), exdir = loc)
-  fifty_states_sp <- readOGR(dsn = loc, layer = "states") %>%
-    spTransform(CRS("+init=epsg:2163"))
-  
-  alaska <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Alaska", ] %>%
-    transform_state(-35, 1.5, c(-2800000, -2600000))
-  proj4string(alaska) <- proj4string(fifty_states_sp)
-  
-  hawaii <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Hawaii", ] %>%
-    transform_state(-35, .75, c(-1000000,-2400000))
-  proj4string(hawaii) <- proj4string(fifty_states_sp)
-  
-  fifty_states <-
-    fifty_states_sp[!fifty_states_sp$STATE_NAME %in% c("Alaska","Hawaii"), ] %>%
-    rbind(alaska) %>%
-    rbind(hawaii) %>%
-    spTransform(CRS("+init=epsg:4326")) %>%
-    fortify(region = "STATE_NAME") %>%
-    mutate(id = tolower(id))
+library(rgeos)
+library(maptools)
+library(rgdal)
+library(ggplot2)
+library(dplyr)
+
+transform_state <- function(object, rot, scale, shift){
+  object %>% elide(rotate = rot) %>%
+    elide(scale = max(apply(bbox(object), 1, diff)) / scale) %>%
+    elide(shift = shift)
 }
+
+#state shape file from
+# http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5
+loc <- file.path(tempdir(), "stats_dat")
+unzip(system.file("extdata", "states_21basic.zip", package = "fiftystater"),
+      exdir = loc)
+fifty_states_sp <- readOGR(dsn = loc, layer = "states") %>%
+  spTransform(CRS("+init=epsg:2163"))
+
+alaska <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Alaska", ] %>%
+  transform_state(-35, 2.5, c(-2400000, -2100000))
+proj4string(alaska) <- proj4string(fifty_states_sp)
+
+hawaii <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Hawaii", ] %>%
+  transform_state(-35, .75, c(-1170000,-2363000))
+proj4string(hawaii) <- proj4string(fifty_states_sp)
+
+fifty_states <-
+  fifty_states_sp[!fifty_states_sp$STATE_NAME %in% c("Alaska","Hawaii"), ] %>%
+  rbind(alaska) %>%
+  rbind(hawaii) %>%
+  spTransform(CRS("+init=epsg:4326")) %>%
+  fortify(region = "STATE_NAME") %>%
+  mutate(id = tolower(id))
 ```

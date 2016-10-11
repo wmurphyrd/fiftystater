@@ -24,7 +24,7 @@ alaska <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Alaska", ] %>%
 proj4string(alaska) <- proj4string(fifty_states_sp)
 
 hawaii <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Hawaii", ] %>%
-  transform_state(-35, .75, c(-1000000,-2300000))
+  transform_state(-35, .75, c(-1170000,-2363000))
 proj4string(hawaii) <- proj4string(fifty_states_sp)
 
 fifty_states <-
@@ -35,5 +35,26 @@ fifty_states <-
   fortify(region = "STATE_NAME") %>%
   mutate(id = tolower(id))
 
-if (file.exists("data/fifty_states.rda")) unlink("data/fifty_states.rda")
-devtools::use_data(fifty_states)
+devtools::use_data(fifty_states, overwrite = TRUE)
+
+get_box <- function(id) {
+  fifty_states[fifty_states$id == id, c("long", "lat")] %>%
+    as.matrix %>%
+    bbox %>%
+    t %>%
+    # expand slightly to leave inner margin
+    apply(2, `+`, c(-.5, .5)) %>%
+    # rearrange corner coordinates into path coordinates
+    `[`(c(1, 2, 2, 1, 1, 3, 3, 4, 4, 3)) %>%
+    matrix(ncol = 2) %>%
+    as.data.frame %>%
+    setNames(c("x", "y")) %>%
+    cbind(data.frame(id = id, stringsAsFactors = FALSE))
+}
+
+fifty_states_inset_boxes <- c("alaska", "hawaii") %>%
+  lapply(get_box) %>%
+  bind_rows %>%
+  with(annotate("path", x = x, y = y, group = id))
+
+devtools::use_data(fifty_states_inset_boxes, overwrite = TRUE)
