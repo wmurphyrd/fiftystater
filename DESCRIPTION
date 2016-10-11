@@ -2,7 +2,7 @@ Package: fiftystater
 Type: Package
 Title: Map Data to Visualize the Fifty U.S. States and Washington D.C. With
     Insets
-Version: 0.1.0.9000
+Version: 0.1.0
 Authors@R: c(person("William", "Murphy", email = "william.murphy.rd@gmail.com",
     role = c("aut", "cre")), person("Barry", "Rowlingson", role = c("ctb"),
     comment = "Original author for derived code"))
@@ -26,3 +26,13 @@ Suggests:
     colorplaner
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
+Copyright: Copyright 2016 William Murphy. fiftystater is free software: you
+    can redistribute it and/or modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation,version 2. This program is distributed
+    in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+    implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+    the GNU General Public License for more details. You should have received a copy
+    of the GNU General Public License along with this program. If not, see <http://
+    www.gnu.org/licenses/>.
+URL: https://github.com/wmurphyrd/fiftystater
+BugReports: https://github.com/wmurphyrd/fiftystater/issues
