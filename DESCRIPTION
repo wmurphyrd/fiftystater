@@ -1,0 +1,28 @@
+Package: fiftystater
+Type: Package
+Title: Map Data to Visualize the Fifty U.S. States and Washington D.C. With
+    Insets
+Version: 0.1.0.9000
+Authors@R: c(person("William", "Murphy", email = "william.murphy.rd@gmail.com",
+    role = c("aut", "cre")), person("Barry", "Rowlingson", role = c("ctb"),
+    comment = "Original author for derived code"))
+Description: A simple data package to ease the process of creating choropleths
+    in ggplot2 with all fifty U.S. states and Washington D.C.,
+    including Alaska and Hawaii as insets.
+License: GPL-3
+LazyData: TRUE
+Depends:
+    R (>= 2.10)
+Suggests:
+    knitr,
+    rmarkdown,
+    maptools,
+    rgdal,
+    mapproj,
+    ggplot2,
+    rgeos,
+    dplyr,
+    testthat,
+    colorplaner
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
