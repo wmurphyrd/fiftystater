@@ -9,7 +9,6 @@
 
 CRAN incoming feasibility
  * This is a new submission
- * Version contains large components 
  * Flagged words are spelled as intended:
       - choropleths (correct)
       - ggplot (package name)
