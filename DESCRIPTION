@@ -15,11 +15,8 @@ Depends:
 Suggests:
     knitr,
     rmarkdown,
-    maptools,
-    rgdal,
     mapproj,
     ggplot2,
-    rgeos,
     dplyr,
     testthat,
     colorplaner

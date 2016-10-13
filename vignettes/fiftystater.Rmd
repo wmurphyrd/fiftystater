@@ -88,7 +88,7 @@ p + aes(fill2 = UrbanPop) + scale_fill_colorplane() +
 
 The map data included in this package was generated with the code below.  
 
-```{r makemap, message=FALSE}
+```{r makemap, message=FALSE, eval=FALSE}
 # Create map data with AK, HI inset.
 library(maptools)
 library(rgeos)
