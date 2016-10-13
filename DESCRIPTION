@@ -1,7 +1,6 @@
 Package: fiftystater
 Type: Package
-Title: Map Data to Visualize the Fifty U.S. States and Washington D.C. With
-    Insets
+Title: Map Data to Visualize the Fifty U.S. States with Alaska and Hawaii Insets
 Version: 0.1.0
 Authors@R: c(person("William", "Murphy", email = "william.murphy.rd@gmail.com",
     role = c("aut", "cre")), person("Barry", "Rowlingson", role = c("ctb"),

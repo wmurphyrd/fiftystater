@@ -30,7 +30,7 @@ transform_state <- function(object, rot, scale, shift){
 # http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5
 loc <- file.path(tempdir(), "stats_dat")
 unzip("inst/extdata/states_21basic.zip", exdir = loc)
-fifty_states_sp <- readOGR(dsn = loc, layer = "states") %>%
+fifty_states_sp <- readOGR(dsn = loc, layer = "states", verbose = FALSE) %>%
   spTransform(CRS("+init=epsg:2163"))
 
 alaska <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Alaska", ] %>%
