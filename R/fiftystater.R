@@ -2,7 +2,7 @@
 #
 # fiftytater is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, version 2.
+# the Free Software Foundation, version 3.
 #
 # fiftystater is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -28,8 +28,8 @@
 #'   \item{group}{Factor, groupings of shapes.}
 #' }
 #'
-#' @source Original shapefile from
-#' \href{http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5}{ArcGIS}.
+#' @source Original shapefile provided by Charlie Fitzpatrick
+#' \href{http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5}{via ArcGIS}.
 #' Transformations based on code from Barry Rowlingson on StackOverflow
 #' \url{http://stackoverflow.com/a/13767984}.
 #'

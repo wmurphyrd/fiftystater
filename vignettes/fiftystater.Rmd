@@ -86,7 +86,11 @@ p + aes(fill2 = UrbanPop) + scale_fill_colorplane() +
   theme(legend.position = "right")
 ```
 
-The map data included in this package was generated with the code below.  
+The map data included in this package can be generated with the code below. 
+If you want to run this code, you
+will need to ensure the packages listed below are installed; they are not
+automatically
+installed with `fiftystater`.
 
 ```{r makemap, message=FALSE, eval=FALSE}
 # Create map data with AK, HI inset.

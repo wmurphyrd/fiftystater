@@ -16,8 +16,8 @@
   \item{group}{Factor, groupings of shapes.}
 }}
 \source{
-Original shapefile from
-\href{http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5}{ArcGIS}.
+Original shapefile provided by Charlie Fitzpatrick
+\href{http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5}{via ArcGIS}.
 Transformations based on code from Barry Rowlingson on StackOverflow
 \url{http://stackoverflow.com/a/13767984}.
 }
