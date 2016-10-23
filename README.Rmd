@@ -87,13 +87,13 @@ p
 If you need to be highly technically accurate, you can add bounding boxes to 
 highlight the insets so that no viewer confuses Alaska and Hawaii for regions in
 a deformed Mexico that you randomly decided to include. 
-I've packaged those up in a `layer`
-object called `fifty_states_inset_boxes` (created via `annotate`), so you can 
+The function called `fifty_states_inset_boxes` 
+will return a layer created via `annotate`, so you can 
 just add it to your plot. 
 
 ```{r example_box}
 # add border boxes to AK/HI
-p + fifty_states_inset_boxes 
+p + fifty_states_inset_boxes()
 ```
 
 This package also plays nicely with my
@@ -113,7 +113,7 @@ will need to ensure the packages listed below are installed; they are not
 automatically
 installed with `fiftystater`.
 
-```{r makemap, message=FALSE}
+```{r makemap, message=FALSE, eval=FALSE}
 # Create map data with AK, HI inset.
 library(maptools)
 library(rgeos)
