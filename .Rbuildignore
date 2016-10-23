@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 ^data-raw/
 ^cran-comments\.md$
-^README\.Rmd$
+^README\.R?md$
 ^README-.*\.png$
 ^\.travis\.yml$
 ^tests/.*\.pdf$
