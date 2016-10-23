@@ -54,11 +54,11 @@ p
 
 ![](README-example-1.png)
 
-If you need to be highly technically accurate, you can add bounding boxes to highlight the insets so that no viewer confuses Alaska and Hawaii for regions in a deformed Mexico that you randomly decided to include. I've packaged those up in a `layer` object called `fifty_states_inset_boxes` (created via `annotate`), so you can just add it to your plot.
+If you need to be highly technically accurate, you can add bounding boxes to highlight the insets so that no viewer confuses Alaska and Hawaii for regions in a deformed Mexico that you randomly decided to include. The function called `fifty_states_inset_boxes` will return a layer created via `annotate`, so you can just add it to your plot.
 
 ``` r
 # add border boxes to AK/HI
-p + fifty_states_inset_boxes 
+p + fifty_states_inset_boxes()
 ```
 
 ![](README-example_box-1.png)

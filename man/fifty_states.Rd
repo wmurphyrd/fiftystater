@@ -3,7 +3,6 @@
 \docType{data}
 \name{fifty_states}
 \alias{fifty_states}
-\alias{fifty_states_inset_boxes}
 \title{Fifty U.S. States and Washington D.C. with Alaska and Hawaii as Insets}
 \format{A data frame with 13694 rows and 7 variables:
 \describe{
@@ -23,8 +22,6 @@ Transformations based on code from Barry Rowlingson on StackOverflow
 }
 \usage{
 fifty_states
-
-fifty_states_inset_boxes
 }
 \description{
 Map data to plot the entire United States by transforming Alaska and Hawaii
@@ -33,11 +30,8 @@ to appear as insets nearby the continental states.
 \details{
 The \code{fifty_states} data frame is provided in the format
   expected by the \code{map} argument to \code{\link[ggplot2]{geom_map}}.
-  Border boxes for the inset states can be included by adding the
-  \code{fifty_states_inset_boxes} object to the plot. This object is a
-  ggplot layer
-  created with
-  \code{\link[ggplot2]{annotate}}.
+  Border boxes for the inset states can be included by adding
+  \code{\link{fifty_states_inset_boxes}} object to the plot.
 }
 \examples{
 if(require("mapproj") && require("ggplot2")) {
@@ -48,8 +42,12 @@ if(require("mapproj") && require("ggplot2")) {
     coord_map()
  p
  # Add bounding boxes for Alaska and Hawaii
- p + fifty_states_inset_boxes
+ p + fifty_states_inset_boxes()
 }
+
+}
+\seealso{
+\code{\link{fifty_states_inset_boxes}}
 }
 \keyword{datasets}
 

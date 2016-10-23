@@ -1,6 +1,6 @@
 # This file is part of fiftystater.
 #
-# fiftytater is free software: you can redistribute it and/or modify
+# fiftystater is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, version 3.
 #
@@ -35,11 +35,8 @@
 #'
 #' @details The \code{fifty_states} data frame is provided in the format
 #'   expected by the \code{map} argument to \code{\link[ggplot2]{geom_map}}.
-#'   Border boxes for the inset states can be included by adding the
-#'   \code{fifty_states_inset_boxes} object to the plot. This object is a
-#'   ggplot layer
-#'   created with
-#'   \code{\link[ggplot2]{annotate}}.
+#'   Border boxes for the inset states can be included by adding
+#'   \code{\link{fifty_states_inset_boxes}} object to the plot.
 #'
 #' @examples
 #' if(require("mapproj") && require("ggplot2")) {
@@ -50,9 +47,43 @@
 #'     coord_map()
 #'  p
 #'  # Add bounding boxes for Alaska and Hawaii
-#'  p + fifty_states_inset_boxes
+#'  p + fifty_states_inset_boxes()
 #' }
+#'
+#' @seealso \code{\link{fifty_states_inset_boxes}}
 "fifty_states"
 
-#' @rdname fifty_states
-"fifty_states_inset_boxes"
+#' Add inset box borders
+#'
+#' Border boxes for the insets of Alaska and Hawaii in
+#' \code{\link{fifty_states}} can be added to the map with this function.
+#'
+#' Adding the result of this function to your ggplot will add a layer with
+#' border boxes to highlight the insets. It draws data from the package data
+#' object
+#' \code{fifty_states_inset_boxes_data} and creates a layer to plot the borders
+#'  with \code{\link[ggplot2]{annotate}}.
+#'
+#'
+#' @return A ggplot2 layer object with path data to draw the inset border boxes
+#'
+#' @examples
+#' if(require("mapproj") && require("ggplot2")) {
+#'   crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
+#'   ggplot(crimes, aes(fill = UrbanPop, map_id = state)) +
+#'     geom_map(map = fifty_states) +
+#'     expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+#'     coord_map() + fifty_states_inset_boxes()
+#' }
+#' @aliases fifty_states_inset_boxes_data
+#' @export
+fifty_states_inset_boxes <- function() {
+  if(!requireNamespace("ggplot2")) {
+    stop("Package 'ggplot2' required for inset box annotation.")
+  }
+  ggplot2::annotate("path",
+                    x = fiftystater::fifty_states_inset_boxes_data$x,
+                    y = fiftystater::fifty_states_inset_boxes_data$y,
+                    group = fiftystater::fifty_states_inset_boxes_data$id)
+}
+

@@ -66,9 +66,8 @@ get_box <- function(id) {
     cbind(data.frame(id = id, stringsAsFactors = FALSE))
 }
 
-fifty_states_inset_boxes <- c("alaska", "hawaii") %>%
+fifty_states_inset_boxes_data <- c("alaska", "hawaii") %>%
   lapply(get_box) %>%
-  bind_rows %>%
-  with(annotate("path", x = x, y = y, group = id))
+  bind_rows
 
-devtools::use_data(fifty_states_inset_boxes, overwrite = TRUE)
+devtools::use_data(fifty_states_inset_boxes_data, overwrite = TRUE)
