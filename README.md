@@ -24,6 +24,11 @@ You can install fiftystater from github with:
 devtools::install_github("wmurphyrd/fiftystater")
 ```
 
+#### Version 1.0.0
+
+-   `fifty_states` data object to easily make 50-state choropleth thematic maps in ggplot2 by including Alaska and Hawaii as insets
+-   `fifty_states_inset_boxes` function to add border boxes to the insets, if desired
+
 Usage Examples
 --------------
 
@@ -78,9 +83,11 @@ The map data included in this package can be generated with the code below. If y
 
 ``` r
 # Create map data with AK, HI inset.
-library(maptools)
+# Inspired by http://stackoverflow.com/a/13767984
 library(rgeos)
+library(maptools)
 library(rgdal)
+library(ggplot2)
 library(dplyr)
 
 transform_state <- function(object, rot, scale, shift){
@@ -92,8 +99,7 @@ transform_state <- function(object, rot, scale, shift){
 #state shape file from
 # http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5
 loc <- file.path(tempdir(), "stats_dat")
-unzip(system.file("extdata", "states_21basic.zip", package = "fiftystater"),
-      exdir = loc)
+unzip("inst/extdata/states_21basic.zip", exdir = loc)
 fifty_states_sp <- readOGR(dsn = loc, layer = "states", verbose = FALSE) %>%
   spTransform(CRS("+init=epsg:2163"))
 
@@ -112,4 +118,27 @@ fifty_states <-
   spTransform(CRS("+init=epsg:4326")) %>%
   fortify(region = "STATE_NAME") %>%
   mutate(id = tolower(id))
+
+devtools::use_data(fifty_states, overwrite = TRUE)
+
+get_box <- function(id) {
+  fifty_states[fifty_states$id == id, c("long", "lat")] %>%
+    as.matrix %>%
+    bbox %>%
+    t %>%
+    # expand slightly to leave inner margin
+    apply(2, `+`, c(-.5, .5)) %>%
+    # rearrange corner coordinates into path coordinates
+    `[`(c(1, 2, 2, 1, 1, 3, 3, 4, 4, 3)) %>%
+    matrix(ncol = 2) %>%
+    as.data.frame %>%
+    setNames(c("x", "y")) %>%
+    cbind(data.frame(id = id, stringsAsFactors = FALSE))
+}
+
+fifty_states_inset_boxes_data <- c("alaska", "hawaii") %>%
+  lapply(get_box) %>%
+  bind_rows
+
+devtools::use_data(fifty_states_inset_boxes_data, overwrite = TRUE)
 ```

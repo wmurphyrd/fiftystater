@@ -53,6 +53,10 @@ You can install fiftystater from github with:
 devtools::install_github("wmurphyrd/fiftystater")
 ```
 
+```{r news, echo=FALSE, results='asis'}
+cat(paste0(readLines("NEWS.md"), "\n"))
+```
+
 ## Usage Examples
 
 To use the fifty state map, simply point the `map` argument in `geom_map`
@@ -113,40 +117,6 @@ will need to ensure the packages listed below are installed; they are not
 automatically
 installed with `fiftystater`.
 
-```{r makemap, message=FALSE, eval=FALSE}
-# Create map data with AK, HI inset.
-library(maptools)
-library(rgeos)
-library(rgdal)
-library(dplyr)
+```{r makemap, code=readLines("data-raw/make_mapfile.R")[-1:-14], eval=FALSE}
 
-transform_state <- function(object, rot, scale, shift){
-  object %>% elide(rotate = rot) %>%
-    elide(scale = max(apply(bbox(object), 1, diff)) / scale) %>%
-    elide(shift = shift)
-}
-
-#state shape file from
-# http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5
-loc <- file.path(tempdir(), "stats_dat")
-unzip(system.file("extdata", "states_21basic.zip", package = "fiftystater"),
-      exdir = loc)
-fifty_states_sp <- readOGR(dsn = loc, layer = "states", verbose = FALSE) %>%
-  spTransform(CRS("+init=epsg:2163"))
-
-alaska <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Alaska", ] %>%
-  transform_state(-35, 2.5, c(-2400000, -2100000))
-proj4string(alaska) <- proj4string(fifty_states_sp)
-
-hawaii <- fifty_states_sp[fifty_states_sp$STATE_NAME == "Hawaii", ] %>%
-  transform_state(-35, .75, c(-1170000,-2363000))
-proj4string(hawaii) <- proj4string(fifty_states_sp)
-
-fifty_states <-
-  fifty_states_sp[!fifty_states_sp$STATE_NAME %in% c("Alaska","Hawaii"), ] %>%
-  rbind(alaska) %>%
-  rbind(hawaii) %>%
-  spTransform(CRS("+init=epsg:4326")) %>%
-  fortify(region = "STATE_NAME") %>%
-  mutate(id = tolower(id))
 ```
