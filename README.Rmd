@@ -53,6 +53,10 @@ You can install fiftystater from github with:
 devtools::install_github("wmurphyrd/fiftystater")
 ```
 
+```{r news, echo=FALSE, results='asis'}
+cat(paste0(readLines("NEWS.md"), "\n"))
+```
+
 ## Usage Examples
 
 To use the fifty state map, simply point the `map` argument in `geom_map`
