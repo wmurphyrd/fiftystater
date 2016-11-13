@@ -36,7 +36,7 @@
 #' @details The \code{fifty_states} data frame is provided in the format
 #'   expected by the \code{map} argument to \code{\link[ggplot2]{geom_map}}.
 #'   Border boxes for the inset states can be included by adding
-#'   \code{\link{fifty_states_inset_boxes}} object to the plot.
+#'   \code{\link{fifty_states_inset_boxes}} to the plot.
 #'
 #' @examples
 #' if(require("mapproj") && require("ggplot2")) {
